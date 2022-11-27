@@ -27,11 +27,9 @@ export class ExpandedCrousDto {
   address: string;
 
   @IsString()
-  @IsNotEmpty()
   phoneNumber: string;
 
   @IsString()
-  @IsNotEmpty()
   email: string;
 
   @IsNumber()

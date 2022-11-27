@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CrousService } from './crous.service';
-import { CreateCrousDto } from './dto/create-crous.dto';
-import { UpdateCrousDto } from './dto/update-crous.dto';
+import { Crous } from './dto/api-crous.interface';
 
 @Controller('crous')
 export class CrousController {
   constructor(private readonly crousService: CrousService) {}
 
   @Post()
-  create(@Body() createCrousDto: CreateCrousDto) {
+  create(@Body() createCrousDto: Crous) {
     return this.crousService.create(createCrousDto);
   }
 
@@ -23,7 +22,7 @@ export class CrousController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCrousDto: UpdateCrousDto) {
+  update(@Param('id') id: string, @Body() updateCrousDto: Crous) {
     return this.crousService.update(+id, updateCrousDto);
   }
 

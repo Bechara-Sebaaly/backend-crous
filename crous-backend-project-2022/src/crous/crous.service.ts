@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCrousDto } from './dto/create-crous.dto';
-import { UpdateCrousDto } from './dto/update-crous.dto';
+import { Crous } from './dto/api-crous.interface';
 
 @Injectable()
 export class CrousService {
-  create(createCrousDto: CreateCrousDto) {
+  create(createCrousDto: Crous) {
     return 'This action adds a new crous';
   }
 
@@ -16,7 +15,7 @@ export class CrousService {
     return `This action returns a #${id} crous`;
   }
 
-  update(id: number, updateCrousDto: UpdateCrousDto) {
+  update(id: number, updateCrousDto: Crous) {
     return `This action updates a #${id} crous`;
   }
 

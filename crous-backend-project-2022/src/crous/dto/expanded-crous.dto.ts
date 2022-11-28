@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { Crous } from './api-crous.interface';
+import { Crous } from './crous.interface';
 
 export class ExpandedCrousDto {
   @IsString()

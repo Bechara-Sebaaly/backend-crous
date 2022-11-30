@@ -20,6 +20,10 @@ export class CrousService {
 
   constructor(private readonly httpService: HttpService) {}
 
+  async onModuleInit() {
+    await this.getCrousData();
+  }
+
   create(createCrousDto: Crous) {
     if (
       !this.crousList.crousList.find(

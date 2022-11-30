@@ -204,24 +204,24 @@ describe('Crous Controller (e2e)', () => {
     await httpRequester
       .post('/crous')
       .send({
-        id: 'AAA',
-        type: 'AAA',
-        zone: 'AAA',
-        title: 'AAA',
-        shortDesc: 'AAA',
-        address: 'AAA',
-        phoneNumber: 'AAA',
-        email: 'AAA',
+        id: 'id-old',
+        type: 'type-old',
+        zone: 'zone-old',
+        title: 'title-old',
+        shortDesc: 'shortDesc-old',
+        address: 'address-old',
+        phoneNumber: 'phoneNumber-old',
+        email: 'email-old',
         latitude: 50.627829,
         longitude: 50.627829,
-        info: 'AAA',
+        info: 'info-old',
         closing: 1,
-        photoURL: 'AAA',
+        photoURL: 'photoURL-old',
       })
       .expect(201);
 
     await httpRequester
-      .patch('/crous/AAA')
+      .patch('/crous/id-old')
       .send({
         shortDesc: 'BBB',
         address: 'BBB',
@@ -229,10 +229,22 @@ describe('Crous Controller (e2e)', () => {
       })
       .expect(200);
 
-    const response = await httpRequester.get('/crous/AAA').expect(200);
+    const response = await httpRequester.get('/crous/id-old').expect(200);
 
-    expect(response.body.shortDesc).toEqual('BBB');
-    expect(response.body.address).toEqual('BBB');
-    expect(response.body.phoneNumber).toEqual('BBB');
+    expect(response.body).toEqual({
+      id: 'id-old',
+      type: 'type-old',
+      zone: 'zone-old',
+      title: 'title-old',
+      shortDesc: 'BBB',
+      address: 'BBB',
+      phoneNumber: 'BBB',
+      email: 'email-old',
+      latitude: 50.627829,
+      longitude: 50.627829,
+      info: 'info-old',
+      closing: 1,
+      photoURL: 'photoURL-old',
+    });
   });
 });

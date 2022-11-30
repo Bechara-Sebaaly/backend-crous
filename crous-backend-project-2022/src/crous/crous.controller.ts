@@ -48,7 +48,7 @@ export class CrousController {
 
   @Patch('/:id')
   update(@Param('id') id: string, @Body() updateCrousDto: Crous) {
-    return this.crousService.update(+id, updateCrousDto);
+    return this.crousService.update(id, updateCrousDto);
   }
 
   @Delete('/:id')

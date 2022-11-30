@@ -85,17 +85,64 @@ export class CrousService {
     return crous;
   }
 
-  update(id: number, updateCrousDto: Crous) {
-    return `This action updates a #${id} crous`;
+  update(id: string, updatedCrous: Crous) {
+    let index: number = this.getIndexOf(id);
+    let newIdCheck: number = this.getIndexOf(updatedCrous.id);
+
+    if (index !== -1 && newIdCheck === -1) {
+      this.crousList.crousList[index].id =
+        updatedCrous?.id ?? this.crousList.crousList[index].id;
+
+      this.crousList.crousList[index].address =
+        updatedCrous?.address ?? this.crousList.crousList[index].address;
+
+      this.crousList.crousList[index].closing =
+        updatedCrous?.closing ?? this.crousList.crousList[index].closing;
+
+      this.crousList.crousList[index].email =
+        updatedCrous?.email ?? this.crousList.crousList[index].email;
+
+      this.crousList.crousList[index].info =
+        updatedCrous?.info ?? this.crousList.crousList[index].info;
+
+      this.crousList.crousList[index].latitude =
+        updatedCrous?.latitude ?? this.crousList.crousList[index].latitude;
+
+      this.crousList.crousList[index].longitude =
+        updatedCrous?.longitude ?? this.crousList.crousList[index].longitude;
+
+      this.crousList.crousList[index].phoneNumber =
+        updatedCrous?.phoneNumber ??
+        this.crousList.crousList[index].phoneNumber;
+
+      this.crousList.crousList[index].photoURL =
+        updatedCrous?.photoURL ?? this.crousList.crousList[index].photoURL;
+
+      this.crousList.crousList[index].shortDesc =
+        updatedCrous?.shortDesc ?? this.crousList.crousList[index].shortDesc;
+
+      this.crousList.crousList[index].title =
+        updatedCrous?.title ?? this.crousList.crousList[index].title;
+
+      this.crousList.crousList[index].type =
+        updatedCrous?.type ?? this.crousList.crousList[index].type;
+    } else return new BadRequestException('ID ALREADY USED');
+
+    return this.crousList.crousList[index];
   }
 
   remove(id: string) {
+    let index: number = this.getIndexOf(id);
+    if (index !== -1) this.crousList.crousList.splice(index, 1);
+  }
+
+  private getIndexOf(id: string) {
     let i: number = -1;
     this.crousList.crousList.forEach((element, index) => {
       if (element.id === id) i = index;
     });
 
-    if (i !== -1) this.crousList.crousList.splice(i, 1);
+    return i;
   }
 
   async getCrousData() {

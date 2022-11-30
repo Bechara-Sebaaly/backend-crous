@@ -53,18 +53,18 @@ export class ExpandedCrousDto {
   photoURL: string;
 
   constructor(crous?: Crous) {
-    this.id = crous?.id;
-    this.type = crous?.type;
-    this.zone = crous?.zone;
-    this.title = crous?.title;
-    this.shortDesc = crous?.shortDesc;
-    this.address = crous?.address;
-    this.phoneNumber = crous?.phoneNumber;
-    this.email = crous?.email;
-    this.latitude = crous?.latitude;
-    this.longitude = crous?.longitude;
-    this.info = crous?.info;
-    this.closing = crous?.closing;
-    this.photoURL = crous?.photoURL;
+    this.id = crous?.id ?? this.id;
+    this.type = crous?.type ?? this.type;
+    this.zone = crous?.zone ?? this.zone;
+    this.title = crous?.title ?? this.title;
+    this.shortDesc = crous?.shortDesc ?? this.shortDesc;
+    this.address = crous?.address ?? this.address;
+    this.phoneNumber = crous?.phoneNumber ?? this.phoneNumber;
+    this.email = crous?.email ?? this.email;
+    this.latitude = crous?.latitude ?? this.latitude;
+    this.longitude = crous?.longitude ?? this.longitude;
+    this.info = crous?.info ?? this.info;
+    this.closing = crous?.closing ?? this.closing;
+    this.photoURL = crous?.photoURL ?? this.photoURL;
   }
 }

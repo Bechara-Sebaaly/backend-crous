@@ -53,6 +53,6 @@ export class CrousController {
 
   @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.crousService.remove(+id);
+    return this.crousService.remove(id);
   }
 }

@@ -89,8 +89,13 @@ export class CrousService {
     return `This action updates a #${id} crous`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} crous`;
+  remove(id: string) {
+    let i: number = -1;
+    this.crousList.crousList.forEach((element, index) => {
+      if (element.id === id) i = index;
+    });
+
+    if (i !== -1) this.crousList.crousList.splice(i, 1);
   }
 
   async getCrousData() {

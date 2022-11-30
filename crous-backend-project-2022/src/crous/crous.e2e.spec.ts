@@ -183,27 +183,20 @@ describe('Crous Controller (e2e)', () => {
       })
       .expect(201);
 
+    const response1 = await httpRequester
+      .get('/crous')
+      .query({ page: 0, rows: 10000, offset: 0, sortBy: 'title' })
+      .expect(200);
+
+    expect(response1.body.returnData.length).toEqual(881);
+
     await httpRequester.delete('/crous/AAA').expect(200);
 
-    const response = await httpRequester
-      .post('/crous/search/title')
-      .send({ title: 'AAA' })
-      .expect(201);
+    const response2 = await httpRequester
+      .get('/crous')
+      .query({ page: 0, rows: 10000, offset: 0, sortBy: 'title' })
+      .expect(200);
 
-    expect(response.body.returnData).not.toContainEqual({
-      id: 'AAA',
-      type: 'AAA',
-      zone: 'AAA',
-      title: 'AAA',
-      shortDesc: 'AAA',
-      address: 'AAA',
-      phoneNumber: 'AAA',
-      email: 'AAA',
-      latitude: 50.627829,
-      longitude: 50.627829,
-      info: 'AAA',
-      closing: 1,
-      photoURL: 'AAA',
-    });
+    expect(response2.body.returnData.length).toEqual(880);
   });
 });

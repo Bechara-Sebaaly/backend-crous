@@ -21,21 +21,23 @@ describe('Crous Controller (e2e)', () => {
   it('/GET all crous restaurants sort by title', async () => {
     const response = await httpRequester
       .get('/crous')
-      .query({ page: 0, rows: 10000, offset: 0, sortBy: 'title'})
+      .query({ page: 0, rows: 10000, offset: 0, sortBy: 'title' })
       .expect(200);
 
     expect(response.body.returnData.length).toBeGreaterThanOrEqual(880);
     expect(response.body.returnData[0].title).toEqual('(S)pace Artem');
   });
 
-  it('/GET all crous restaurants sort by zone', async () => {
+  it('/GET all crous restaurants sort by address', async () => {
     const response = await httpRequester
       .get('/crous')
-      .query({ page: 0, rows: 10000, offset: 0 , sortBy: 'zone'})
+      .query({ page: 0, rows: 10000, offset: 0, sortBy: 'address' })
       .expect(200);
 
     expect(response.body.returnData.length).toBeGreaterThanOrEqual(880);
-    expect(response.body.returnData[0].zone).toEqual('');
+    expect(response.body.returnData[0].address).toEqual(
+      '(S)pace Artem Rue Michel Dinet, 54000 NANCY',
+    );
   });
 
   it('/GET all crous restaurants sort by type', async () => {

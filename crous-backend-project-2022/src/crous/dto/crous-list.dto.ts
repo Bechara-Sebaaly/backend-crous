@@ -1,5 +1,5 @@
-import { Crous } from './crous.interface';
+import { ExpandedCrousDto } from './expanded-crous.dto';
 
 export class CrousList {
-  crousList: Crous[] = [];
+  crousList: ExpandedCrousDto[] = [];
 }

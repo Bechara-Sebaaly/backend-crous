@@ -2,7 +2,13 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import e from 'express';
 import { map, tap, lastValueFrom } from 'rxjs';
-import { ApiCrous, Crous, CrousList } from './dto';
+import {
+  ApiCrous,
+  Crous,
+  CrousList,
+  ExpandedCrousDto,
+  ReducedCrousDto,
+} from './dto';
 
 @Injectable()
 export class CrousService {
@@ -14,7 +20,7 @@ export class CrousService {
     return 'This action adds a new crous';
   }
 
-  async findAll(page: number, rows: number, offset: number, sortBy: string) {
+  findAll(page: number, rows: number, offset: number, sortBy: string) {
     let start: number,
       end: number,
       current: number,
@@ -22,23 +28,31 @@ export class CrousService {
       last: number,
       first: number;
 
-    [start, end, current, next, last, first] = this.getPaginationArguments(
-      page,
-      rows,
-      offset,
-      this.crousList.crousList.length,
+    [start, end, current, next, last, first, rows] =
+      this.getPaginationArguments(
+        page,
+        rows,
+        offset,
+        this.crousList.crousList.length,
+      );
+
+    let requestedData: ExpandedCrousDto[] = this.crousList.crousList.slice(
+      start,
+      end,
     );
 
-    let returnData = this.crousList.crousList.slice(start, end);
+    if (sortBy === 'title')
+      requestedData = this.sortCrousByTitle(requestedData);
+    else if (sortBy === 'address')
+      requestedData = this.sortCrousByAddress(requestedData);
+    else if (sortBy === 'type')
+      requestedData = this.sortCrousByType(requestedData);
 
-    if (sortBy === 'title') returnData = this.sortCrousByTitle(returnData);
-    else if (sortBy === 'zone') returnData = this.sortCrousByZone(returnData);
-    else if (sortBy === 'type') returnData = this.sortCrousByType(returnData);
-
-    return { current, next, last, first, returnData };
+    let returnData: ReducedCrousDto[] = this.reduceData(requestedData);
+    return { current, next, last, first, rows, returnData };
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): ExpandedCrousDto {
     const crous = this.crousList.crousList.find((element) => element.id == id);
 
     if (!crous) throw new Error('CROUS NOT FOUND!');
@@ -83,7 +97,7 @@ export class CrousService {
               apiData.crousList.push({
                 id: element.fields.id,
                 type: element.fields.type,
-                zone: element.fields.zone?element.fields.zone:'',
+                zone: element.fields.zone ? element.fields.zone : '',
                 title: element.fields.title,
                 shortDesc: element.fields.short_desc
                   ? element.fields.short_desc
@@ -137,7 +151,7 @@ export class CrousService {
     rows: number,
     offset: number,
     length: number,
-  ): [number, number, number, number, number, number] {
+  ): [number, number, number, number, number, number, number] {
     page = page < 0 ? 0 : page;
     rows = rows <= 0 ? 10 : rows > length ? length : rows;
     offset = offset < 0 ? 0 : offset;
@@ -150,24 +164,37 @@ export class CrousService {
     let last = totalNbPages - 1;
     let first = 0;
 
-    return [start, end, current, next, last, first];
+    return [start, end, current, next, last, first, rows];
   }
 
-  private sortCrousByTitle(crousList: Crous[]): Crous[] {
+  private sortCrousByTitle(crousList: ExpandedCrousDto[]): ExpandedCrousDto[] {
     return crousList.sort((fo: Crous, so: Crous) =>
       fo.title.localeCompare(so.title),
     );
   }
 
-  private sortCrousByZone(crousList: Crous[]): Crous[] {
+  private sortCrousByAddress(
+    crousList: ExpandedCrousDto[],
+  ): ExpandedCrousDto[] {
     return crousList.sort((fo: Crous, so: Crous) =>
-      fo.zone.localeCompare(so.zone),
+      fo.address.localeCompare(so.address),
     );
   }
 
-  private sortCrousByType(crousList: Crous[]): Crous[] {
+  private sortCrousByType(crousList: ExpandedCrousDto[]): ExpandedCrousDto[] {
     return crousList.sort((fo: Crous, so: Crous) =>
       fo.type.localeCompare(so.type),
     );
+  }
+
+  private reduceData(expandedData: ExpandedCrousDto[]): ReducedCrousDto[] {
+    let reducedDataList: ReducedCrousDto[] = [];
+    let reducedData: ReducedCrousDto;
+
+    expandedData.forEach((element) => {
+      reducedData = new ReducedCrousDto(element);
+      reducedDataList.push(reducedData);
+    });
+    return reducedDataList;
   }
 }

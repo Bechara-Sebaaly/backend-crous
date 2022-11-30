@@ -1,5 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import e from 'express';
 import { map, tap, lastValueFrom } from 'rxjs';
 import {
@@ -17,7 +21,19 @@ export class CrousService {
   constructor(private readonly httpService: HttpService) {}
 
   create(createCrousDto: Crous) {
-    return 'This action adds a new crous';
+    if (
+      !this.crousList.crousList.find(
+        (element) => element.id === createCrousDto.id,
+      ) &&
+      !this.crousList.crousList.find((element) => element === createCrousDto)
+    )
+      this.crousList.crousList.push(createCrousDto);
+    else
+      return new BadRequestException(
+        'A RESTAURANT WITH THE SAME ID, OR SIMILAR DATA ALREADY EXISTS',
+      );
+
+    return this.findOneById(createCrousDto.id);
   }
 
   findAll(page: number, rows: number, offset: number, sortBy: string) {
@@ -52,10 +68,10 @@ export class CrousService {
     return { current, next, last, first, rows, returnData };
   }
 
-  findOneById(id: string): ExpandedCrousDto {
+  findOneById(id: string) {
     const crous = this.crousList.crousList.find((element) => element.id == id);
 
-    if (!crous) throw new Error('CROUS NOT FOUND!');
+    if (!crous) return new NotFoundException('CROUS NOT FOUND!');
     return crous;
   }
 
@@ -64,7 +80,7 @@ export class CrousService {
       element.title.includes(title),
     );
 
-    if (!crous) throw new Error('CROUS NOT FOUND!');
+    if (!crous) return new NotFoundException('CROUS NOT FOUND!');
     if (crous.length == 1) return crous[0];
     return crous;
   }

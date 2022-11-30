@@ -127,14 +127,13 @@ describe('Crous Controller (e2e)', () => {
   });
 
   it('/POST create restaurant', async () => {
-    const response = await (
-      await httpRequester.post('/crous')
-    )
-      .body({
-        id: 'r836',
+    const response = await httpRequester
+      .post('/crous')
+      .send({
+        id: 'AAA',
         type: 'AAA',
         zone: 'AAA',
-        itle: 'AAA',
+        title: 'AAA',
         shortDesc: 'AAA',
         address: 'AAA',
         phoneNumber: 'AAA',
@@ -148,10 +147,10 @@ describe('Crous Controller (e2e)', () => {
       .expect(201);
 
     expect(response.body).toEqual({
-      id: 'r836',
+      id: 'AAA',
       type: 'AAA',
       zone: 'AAA',
-      itle: 'AAA',
+      title: 'AAA',
       shortDesc: 'AAA',
       address: 'AAA',
       phoneNumber: 'AAA',

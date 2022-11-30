@@ -10,7 +10,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CrousService } from './crous.service';
-import { Crous } from './dto';
+import { Crous, ExpandedCrousDto } from './dto';
 
 @Controller('crous')
 export class CrousController {
@@ -21,7 +21,7 @@ export class CrousController {
   }
 
   @Post()
-  create(@Body() createCrousDto: Crous) {
+  create(@Body() createCrousDto: ExpandedCrousDto) {
     return this.crousService.create(createCrousDto);
   }
 

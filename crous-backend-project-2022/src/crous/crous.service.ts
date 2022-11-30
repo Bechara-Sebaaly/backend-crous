@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import e from 'express';
 import { map, tap, lastValueFrom } from 'rxjs';
 import {
   ApiCrous,
@@ -138,6 +137,9 @@ export class CrousService {
   remove(id: string) {
     let index: number = this.getIndexOf(id);
     if (index !== -1) this.crousList.crousList.splice(index, 1);
+    else throw new NotFoundException('CROUS NOT FOUND!');
+
+    return id;
   }
 
   private getIndexOf(id: string) {

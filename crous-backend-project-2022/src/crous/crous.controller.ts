@@ -16,10 +16,6 @@ import { Crous, ExpandedCrousDto } from './dto';
 export class CrousController {
   constructor(private readonly crousService: CrousService) {}
 
-  async onModuleInit() {
-    await this.crousService.getCrousData();
-  }
-
   @Post()
   create(@Body() createCrousDto: ExpandedCrousDto) {
     return this.crousService.create(createCrousDto);
@@ -41,7 +37,7 @@ export class CrousController {
   }
 
   @Post('/search/title')
-  searchByName(@Body('title') title: string) {
+  searchByTitle(@Body('title') title: string) {
     console.log(title);
     return this.crousService.searchByName(title);
   }

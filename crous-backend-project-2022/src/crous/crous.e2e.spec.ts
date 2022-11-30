@@ -125,4 +125,42 @@ describe('Crous Controller (e2e)', () => {
 
     expect(response.body.id).toEqual('r694');
   });
+
+  it('/POST create restaurant', async () => {
+    const response = await (
+      await httpRequester.post('/crous')
+    )
+      .body({
+        id: 'r836',
+        type: 'AAA',
+        zone: 'AAA',
+        itle: 'AAA',
+        shortDesc: 'AAA',
+        address: 'AAA',
+        phoneNumber: 'AAA',
+        email: 'AAA',
+        latitude: 50.627829,
+        longitude: 50.627829,
+        info: 'AAA',
+        closing: 1,
+        photoURL: 'AAA',
+      })
+      .expect(201);
+
+    expect(response.body).toEqual({
+      id: 'r836',
+      type: 'AAA',
+      zone: 'AAA',
+      itle: 'AAA',
+      shortDesc: 'AAA',
+      address: 'AAA',
+      phoneNumber: 'AAA',
+      email: 'AAA',
+      latitude: 50.627829,
+      longitude: 50.627829,
+      info: 'AAA',
+      closing: 1,
+      photoURL: 'AAA',
+    });
+  });
 });

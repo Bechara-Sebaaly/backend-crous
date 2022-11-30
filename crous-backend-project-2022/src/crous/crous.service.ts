@@ -25,12 +25,12 @@ export class CrousService {
 
   create(createCrousDto: Crous) {
     if (
-      !this.crousList.crousList.find(
+      !this.crousList.restaurants.find(
         (element) => element.id === createCrousDto.id,
       ) &&
-      !this.crousList.crousList.find((element) => element === createCrousDto)
+      !this.crousList.restaurants.find((element) => element === createCrousDto)
     )
-      this.crousList.crousList.push(createCrousDto);
+      this.crousList.restaurants.push(createCrousDto);
     else
       return new BadRequestException(
         'A RESTAURANT WITH THE SAME ID, OR SIMILAR DATA ALREADY EXISTS',
@@ -52,10 +52,10 @@ export class CrousService {
         page,
         rows,
         offset,
-        this.crousList.crousList.length,
+        this.crousList.restaurants.length,
       );
 
-    let requestedData: ExpandedCrousDto[] = this.crousList.crousList.slice(
+    let requestedData: ExpandedCrousDto[] = this.crousList.restaurants.slice(
       start,
       end,
     );
@@ -72,14 +72,16 @@ export class CrousService {
   }
 
   findOneById(id: string) {
-    const crous = this.crousList.crousList.find((element) => element.id == id);
+    const crous = this.crousList.restaurants.find(
+      (element) => element.id == id,
+    );
 
     if (!crous) return new NotFoundException('CROUS NOT FOUND!');
     return crous;
   }
 
   searchByName(title: string) {
-    const crous = this.crousList.crousList.filter((element) =>
+    const crous = this.crousList.restaurants.filter((element) =>
       element.title.includes(title),
     );
 
@@ -93,50 +95,50 @@ export class CrousService {
     let newIdCheck: number = this.getIndexOf(updatedCrous.id);
 
     if (index !== -1 && newIdCheck === -1) {
-      this.crousList.crousList[index].id =
-        updatedCrous?.id ?? this.crousList.crousList[index].id;
+      this.crousList.restaurants[index].id =
+        updatedCrous?.id ?? this.crousList.restaurants[index].id;
 
-      this.crousList.crousList[index].address =
-        updatedCrous?.address ?? this.crousList.crousList[index].address;
+      this.crousList.restaurants[index].address =
+        updatedCrous?.address ?? this.crousList.restaurants[index].address;
 
-      this.crousList.crousList[index].closing =
-        updatedCrous?.closing ?? this.crousList.crousList[index].closing;
+      this.crousList.restaurants[index].closing =
+        updatedCrous?.closing ?? this.crousList.restaurants[index].closing;
 
-      this.crousList.crousList[index].email =
-        updatedCrous?.email ?? this.crousList.crousList[index].email;
+      this.crousList.restaurants[index].email =
+        updatedCrous?.email ?? this.crousList.restaurants[index].email;
 
-      this.crousList.crousList[index].info =
-        updatedCrous?.info ?? this.crousList.crousList[index].info;
+      this.crousList.restaurants[index].info =
+        updatedCrous?.info ?? this.crousList.restaurants[index].info;
 
-      this.crousList.crousList[index].latitude =
-        updatedCrous?.latitude ?? this.crousList.crousList[index].latitude;
+      this.crousList.restaurants[index].latitude =
+        updatedCrous?.latitude ?? this.crousList.restaurants[index].latitude;
 
-      this.crousList.crousList[index].longitude =
-        updatedCrous?.longitude ?? this.crousList.crousList[index].longitude;
+      this.crousList.restaurants[index].longitude =
+        updatedCrous?.longitude ?? this.crousList.restaurants[index].longitude;
 
-      this.crousList.crousList[index].phoneNumber =
+      this.crousList.restaurants[index].phoneNumber =
         updatedCrous?.phoneNumber ??
-        this.crousList.crousList[index].phoneNumber;
+        this.crousList.restaurants[index].phoneNumber;
 
-      this.crousList.crousList[index].photoURL =
-        updatedCrous?.photoURL ?? this.crousList.crousList[index].photoURL;
+      this.crousList.restaurants[index].photoURL =
+        updatedCrous?.photoURL ?? this.crousList.restaurants[index].photoURL;
 
-      this.crousList.crousList[index].shortDesc =
-        updatedCrous?.shortDesc ?? this.crousList.crousList[index].shortDesc;
+      this.crousList.restaurants[index].shortDesc =
+        updatedCrous?.shortDesc ?? this.crousList.restaurants[index].shortDesc;
 
-      this.crousList.crousList[index].title =
-        updatedCrous?.title ?? this.crousList.crousList[index].title;
+      this.crousList.restaurants[index].title =
+        updatedCrous?.title ?? this.crousList.restaurants[index].title;
 
-      this.crousList.crousList[index].type =
-        updatedCrous?.type ?? this.crousList.crousList[index].type;
+      this.crousList.restaurants[index].type =
+        updatedCrous?.type ?? this.crousList.restaurants[index].type;
     } else return new BadRequestException('ID ALREADY USED');
 
-    return this.crousList.crousList[index];
+    return this.crousList.restaurants[index];
   }
 
   remove(id: string) {
     let index: number = this.getIndexOf(id);
-    if (index !== -1) this.crousList.crousList.splice(index, 1);
+    if (index !== -1) this.crousList.restaurants.splice(index, 1);
     else throw new NotFoundException('CROUS NOT FOUND!');
 
     return id;
@@ -144,7 +146,7 @@ export class CrousService {
 
   private getIndexOf(id: string) {
     let i: number = -1;
-    this.crousList.crousList.forEach((element, index) => {
+    this.crousList.restaurants.forEach((element, index) => {
       if (element.id === id) i = index;
     });
 
@@ -168,7 +170,7 @@ export class CrousService {
                 element.fields.contact,
               );
 
-              apiData.crousList.push({
+              apiData.restaurants.push({
                 id: element.fields.id,
                 type: element.fields.type,
                 zone: element.fields.zone ? element.fields.zone : '',
@@ -190,7 +192,7 @@ export class CrousService {
         ),
     );
 
-    this.crousList.crousList = this.sortCrousByTitle(apiData.crousList);
+    this.crousList.restaurants = this.sortCrousByTitle(apiData.restaurants);
     return this.crousList;
   }
 

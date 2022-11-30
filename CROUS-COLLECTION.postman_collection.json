@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "4ef31a5e-6398-4be2-8c86-d0dbaf7c546d",
+		"name": "CROUS-COLLECTION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET all crous restaurants sortBy title (default)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all crous restaurants sort ByAddress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=address",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "address"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all crous restaurants sortBy type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=type",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "type"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET crous reataurants (page 0, rows 10)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=10&offset=-1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET crous reataurants (page 0, rows 10, offset 2)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=10&offset=2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET crous by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous/r986",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						"r986"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET crous by title",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Brasserie Hurons\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/crous/search/title",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						"search",
+						"title"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST crous restaurant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"id-old\",\r\n        \"type\": \"type-old\",\r\n        \"zone\": \"zone-old\",\r\n        \"title\": \"title-old\",\r\n        \"shortDesc\": \"shortDesc-old\",\r\n        \"address\": \"address-old\",\r\n        \"phoneNumber\": \"phoneNumber-old\",\r\n        \"email\": \"email-old\",\r\n        \"latitude\": 50.627829,\r\n        \"longitude\": 50.627829,\r\n        \"info\": \"info-old\",\r\n        \"closing\": 1,\r\n        \"photoURL\": \"photoURL-old\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/crous/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH crous restaurant",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"zone\": \"zone-new\",\r\n        \"shortDesc\": \"shortDesc-new\",\r\n        \"phoneNumber\": \"phoneNumber-new\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/crous/id-old",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						"id-old"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH crous restaurant Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous/id-old",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						"id-old"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3000",
+			"type": "default"
+		}
+	]
+}

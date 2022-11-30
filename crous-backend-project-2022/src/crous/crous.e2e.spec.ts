@@ -162,4 +162,48 @@ describe('Crous Controller (e2e)', () => {
       photoURL: 'AAA',
     });
   });
+
+  it('/DELETE delete restaurant', async () => {
+    await httpRequester
+      .post('/crous')
+      .send({
+        id: 'AAA',
+        type: 'AAA',
+        zone: 'AAA',
+        title: 'AAA',
+        shortDesc: 'AAA',
+        address: 'AAA',
+        phoneNumber: 'AAA',
+        email: 'AAA',
+        latitude: 50.627829,
+        longitude: 50.627829,
+        info: 'AAA',
+        closing: 1,
+        photoURL: 'AAA',
+      })
+      .expect(201);
+
+    await httpRequester.delete('/crous/AAA').expect(200);
+
+    const response = await httpRequester
+      .post('/crous/search/title')
+      .send({ title: 'AAA' })
+      .expect(201);
+
+    expect(response.body.returnData).not.toContainEqual({
+      id: 'AAA',
+      type: 'AAA',
+      zone: 'AAA',
+      title: 'AAA',
+      shortDesc: 'AAA',
+      address: 'AAA',
+      phoneNumber: 'AAA',
+      email: 'AAA',
+      latitude: 50.627829,
+      longitude: 50.627829,
+      info: 'AAA',
+      closing: 1,
+      photoURL: 'AAA',
+    });
+  });
 });

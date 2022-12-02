@@ -126,6 +126,19 @@ describe('Crous Controller (e2e)', () => {
     expect(response.body.id).toEqual('r694');
   });
 
+  it('/PUT amd /GET crous favorites', async () => {
+    const response = await httpRequester.put('/crous/r694').expect(200);
+    expect(response.text).toEqual('r694');
+
+    const response2 = await httpRequester
+      .get('/crous')
+      .query({ page: 0, rows: -1, offset: 0, fav: 1 })
+      .expect(200);
+
+    expect(response2.body.returnData[0].id).toEqual('r694');
+    expect(response2.body.returnData.length).toEqual(1);
+  });
+
   it('/POST create restaurant', async () => {
     const response = await httpRequester
       .post('/crous')

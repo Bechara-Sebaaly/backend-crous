@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import e from 'express';
 import { map, tap, lastValueFrom } from 'rxjs';
 import {
   ApiCrous,
@@ -16,6 +17,7 @@ import {
 @Injectable()
 export class CrousService {
   private crousList: CrousList;
+  private crousFav: string[] = [];
 
   constructor(private readonly httpService: HttpService) {}
 
@@ -39,7 +41,13 @@ export class CrousService {
     return this.findOneById(createCrousDto.id);
   }
 
-  findAll(page: number, rows: number, offset: number, sortBy: string) {
+  findAll(
+    page: number,
+    rows: number,
+    offset: number,
+    sortBy: string,
+    favorites: number,
+  ) {
     let start: number,
       end: number,
       current: number,
@@ -47,18 +55,18 @@ export class CrousService {
       last: number,
       first: number;
 
-    [start, end, current, next, last, first, rows] =
-      this.getPaginationArguments(
-        page,
-        rows,
-        offset,
-        this.crousList.restaurants.length,
+    let list: CrousList = new CrousList();
+    list.restaurants = this.crousList.restaurants.slice();
+
+    if (favorites === 1)
+      list.restaurants = this.crousList.restaurants.filter((element) =>
+        this.crousFav.find((id) => id === element.id),
       );
 
-    let requestedData: ExpandedCrousDto[] = this.crousList.restaurants.slice(
-      start,
-      end,
-    );
+    [start, end, current, next, last, first, rows] =
+      this.getPaginationArguments(page, rows, offset, list.restaurants.length);
+
+    let requestedData: ExpandedCrousDto[] = list.restaurants.slice(start, end);
 
     if (sortBy === 'title')
       requestedData = this.sortCrousByTitle(requestedData);
@@ -73,7 +81,7 @@ export class CrousService {
 
   findOneById(id: string) {
     const crous = this.crousList.restaurants.find(
-      (element) => element.id == id,
+      (element) => element.id === id,
     );
 
     if (!crous) return new NotFoundException('CROUS NOT FOUND!');
@@ -86,8 +94,20 @@ export class CrousService {
     );
 
     if (!crous) return new NotFoundException('CROUS NOT FOUND!');
-    if (crous.length == 1) return crous[0];
+    if (crous.length === 1) return crous[0];
     return crous;
+  }
+
+  toggleFavorite(id: string) {
+    let index: number = this.crousFav.indexOf(id, 0);
+    if (index === -1) {
+      index = this.getIndexOf(id);
+      this.crousFav.push(this.crousList.restaurants[index].id);
+    } else {
+      this.crousFav.splice(index, 1);
+    }
+
+    return id;
   }
 
   update(id: string, updatedCrous: Crous) {
@@ -232,12 +252,12 @@ export class CrousService {
     rows = rows <= 0 ? 10 : rows > length ? length : rows;
     offset = offset < 0 ? 0 : offset;
 
-    let totalNbPages = Math.ceil(length / rows);
+    let totalNbPages = rows == 0 ? 0 : Math.ceil(length / rows);
     let start = page * rows + offset > length ? 0 : page * rows + offset;
     let end = page * rows + offset + rows;
     let current = page;
     let next = page++ >= totalNbPages - 1 ? 0 : page++;
-    let last = totalNbPages - 1;
+    let last = totalNbPages - 1 < 0 ? 0 : totalNbPages - 1;
     let first = 0;
 
     return [start, end, current, next, last, first, rows];

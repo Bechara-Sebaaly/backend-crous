@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { CrousService } from './crous.service';
 import { Crous, ExpandedCrousDto } from './dto';
@@ -27,8 +28,9 @@ export class CrousController {
     @Query('rows', ParseIntPipe) rows: number,
     @Query('offset', ParseIntPipe) offset: number,
     @Query('sortBy') sortBy: string,
+    @Query('fav') favorites: number,
   ) {
-    return this.crousService.findAll(page, rows, offset, sortBy);
+    return this.crousService.findAll(page, rows, offset, sortBy, +favorites);
   }
 
   @Get('/:id')
@@ -40,6 +42,11 @@ export class CrousController {
   searchByTitle(@Body('title') title: string) {
     console.log(title);
     return this.crousService.searchByName(title);
+  }
+
+  @Put('/:id')
+  toggleFavorite(@Param('id') id: string) {
+    return this.crousService.toggleFavorite(id);
   }
 
   @Patch('/:id')

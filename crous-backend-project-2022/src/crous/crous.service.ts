@@ -25,20 +25,18 @@ export class CrousService {
     await this.getCrousData();
   }
 
-  create(createCrousDto: Crous) {
+  create(crous: Crous): ExpandedCrousDto | BadRequestException {
     if (
-      !this.crousList.restaurants.find(
-        (element) => element.id === createCrousDto.id,
-      ) &&
-      !this.crousList.restaurants.find((element) => element === createCrousDto)
+      !this.crousList.restaurants.find((element) => element.id === crous.id) &&
+      !this.crousList.restaurants.find((element) => element === crous)
     )
-      this.crousList.restaurants.push(createCrousDto);
+      this.crousList.restaurants.push(crous);
     else
-      return new BadRequestException(
+      throw new BadRequestException(
         'A RESTAURANT WITH THE SAME ID, OR SIMILAR DATA ALREADY EXISTS',
       );
 
-    return this.findOneById(createCrousDto.id);
+    return this.findOneById(crous.id);
   }
 
   findAll(
@@ -79,26 +77,28 @@ export class CrousService {
     return { current, next, last, first, rows, returnData };
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): ExpandedCrousDto | NotFoundException {
     const crous = this.crousList.restaurants.find(
       (element) => element.id === id,
     );
 
-    if (!crous) return new NotFoundException('CROUS NOT FOUND!');
+    if (!crous) throw new NotFoundException('CROUS NOT FOUND!');
     return crous;
   }
 
-  searchByName(title: string) {
+  searchByName(
+    title: string,
+  ): ExpandedCrousDto[] | ExpandedCrousDto | NotFoundException {
     const crous = this.crousList.restaurants.filter((element) =>
       element.title.includes(title),
     );
 
-    if (!crous) return new NotFoundException('CROUS NOT FOUND!');
+    if (!crous) throw new NotFoundException('CROUS NOT FOUND!');
     if (crous.length === 1) return crous[0];
     return crous;
   }
 
-  toggleFavorite(id: string) {
+  toggleFavorite(id: string): string {
     let index: number = this.crousFav.indexOf(id, 0);
     if (index === -1) {
       index = this.getIndexOf(id);
@@ -110,7 +110,7 @@ export class CrousService {
     return id;
   }
 
-  update(id: string, updatedCrous: Crous) {
+  update(id: string, updatedCrous: Crous): Crous | BadRequestException {
     let index: number = this.getIndexOf(id);
     let newIdCheck: number = this.getIndexOf(updatedCrous.id);
 
@@ -151,12 +151,12 @@ export class CrousService {
 
       this.crousList.restaurants[index].type =
         updatedCrous?.type ?? this.crousList.restaurants[index].type;
-    } else return new BadRequestException('ID ALREADY USED');
+    } else throw new BadRequestException('ID ALREADY USED');
 
     return this.crousList.restaurants[index];
   }
 
-  remove(id: string) {
+  remove(id: string): string {
     let index: number = this.getIndexOf(id);
     if (index !== -1) this.crousList.restaurants.splice(index, 1);
     else throw new NotFoundException('CROUS NOT FOUND!');
@@ -164,7 +164,7 @@ export class CrousService {
     return id;
   }
 
-  private getIndexOf(id: string) {
+  private getIndexOf(id: string): number {
     let i: number = -1;
     this.crousList.restaurants.forEach((element, index) => {
       if (element.id === id) i = index;
@@ -173,7 +173,7 @@ export class CrousService {
     return i;
   }
 
-  async getCrousData() {
+  async getCrousData(): Promise<CrousList> {
     let apiData = new CrousList();
     this.crousList = new CrousList();
 

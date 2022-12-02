@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4ef31a5e-6398-4be2-8c86-d0dbaf7c546d",
+		"_postman_id": "fffea477-6646-4a83-bb69-a92a298a5b20",
 		"name": "CROUS-COLLECTION",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -72,7 +72,124 @@
 			"response": []
 		},
 		{
-			"name": "GET all crous restaurants sortBy type",
+			"name": "GET all favorites sortBy type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=type&fav=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "type"
+						},
+						{
+							"key": "fav",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all favorites sortBy title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=title&fav=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "title"
+						},
+						{
+							"key": "fav",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all favorites sortBy type Copy 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=address&fav=1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "rows",
+							"value": "1000"
+						},
+						{
+							"key": "offset",
+							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "address"
+						},
+						{
+							"key": "fav",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all crous restaurants sortBy type Copy",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -107,12 +224,12 @@
 			"response": []
 		},
 		{
-			"name": "GET crous reataurants (page 0, rows 10)",
+			"name": "GET crous reataurants (page 0, rows 5)",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/crous?page=0&rows=10&offset=-1",
+					"raw": "{{url}}/crous?page=0&rows=5&offset=-1",
 					"host": [
 						"{{url}}"
 					],
@@ -126,7 +243,7 @@
 						},
 						{
 							"key": "rows",
-							"value": "10"
+							"value": "5"
 						},
 						{
 							"key": "offset",
@@ -138,12 +255,12 @@
 			"response": []
 		},
 		{
-			"name": "GET crous reataurants (page 0, rows 10, offset 2)",
+			"name": "GET crous reataurants (page 0, rows 5, offset 2)",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/crous?page=0&rows=10&offset=2",
+					"raw": "{{url}}/crous?page=0&rows=5&offset=2",
 					"host": [
 						"{{url}}"
 					],
@@ -157,7 +274,7 @@
 						},
 						{
 							"key": "rows",
-							"value": "10"
+							"value": "5"
 						},
 						{
 							"key": "offset",
@@ -236,6 +353,33 @@
 					"path": [
 						"crous",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT crous in favorites",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": \"id-old\",\r\n        \"type\": \"type-old\",\r\n        \"zone\": \"zone-old\",\r\n        \"title\": \"title-old\",\r\n        \"shortDesc\": \"shortDesc-old\",\r\n        \"address\": \"address-old\",\r\n        \"phoneNumber\": \"phoneNumber-old\",\r\n        \"email\": \"email-old\",\r\n        \"latitude\": 50.627829,\r\n        \"longitude\": 50.627829,\r\n        \"info\": \"info-old\",\r\n        \"closing\": 1,\r\n        \"photoURL\": \"photoURL-old\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/crous/r494",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"crous",
+						"r494"
 					]
 				}
 			},

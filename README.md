@@ -99,7 +99,7 @@ this contains the expanded version of the crous data (all the attributs existing
 
 this contains the reduced version of the crous data (certain attributs from the interface), to be used when requesting info about multiple crous restaurants (so probably for the thumbnails)
 
-#### controller
+#### 🎮 controller
 
 | Function         | URL                                     | Description                                                                                                                   |         URL Query |
 | :--------------- | :-------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- | ----------------: |
@@ -113,7 +113,7 @@ this contains the reduced version of the crous data (certain attributs from the 
 
 (1) page number (for pagination), number of rows (for pagination), offset (for pagination), sortBy (title,address or type), fav (0 or 1 to decide if API should return favorites or all)
 
-#### service
+#### 🔧 service
 
 | Function                 |                                                      description                                                       |                                   arguments                                    |                                                                                       return |
 | :----------------------- | :--------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | -------------------------------------------------------------------------------------------: |

@@ -125,6 +125,7 @@ export class CrousService {
       this.crousFav.push(id);
       this.crousList.restaurants[index].favorite = true;
     } else {
+      this.crousFav.slice(index, 1);
       index = this.getIndexOf(id);
       this.crousList.restaurants[index].favorite = false;
     }

@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "GET all crous restaurants sortBy title (default)",
+			"name": "full GET all crous restaurants sortBy title (default)",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1",
+					"raw": "{{url}}/crous?page=0&rows=1000&offset=-1&sortBy=title&geoloc=0&refresh=0&fav=0",
 					"host": [
 						"{{url}}"
 					],
@@ -30,6 +30,22 @@
 						{
 							"key": "offset",
 							"value": "-1"
+						},
+						{
+							"key": "sortBy",
+							"value": "title"
+						},
+						{
+							"key": "geoloc",
+							"value": "0"
+						},
+						{
+							"key": "refresh",
+							"value": "0"
+						},
+						{
+							"key": "fav",
+							"value": "0"
 						}
 					]
 				}
@@ -150,7 +166,7 @@
 			"response": []
 		},
 		{
-			"name": "GET all favorites sortBy type Copy 2",
+			"name": "GET all favorites sortBy address",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -310,7 +326,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Brasserie Hurons\"\r\n}",
+					"raw": "{\r\n    \"title\": \"ars\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -415,8 +431,17 @@
 		{
 			"name": "PATCH crous restaurant Copy",
 			"request": {
-				"method": "DELETE",
+				"method": "PATCH",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"zone\": \"zone-new\",\r\n        \"shortDesc\": \"shortDesc-new\",\r\n        \"phoneNumber\": \"phoneNumber-new\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{url}}/crous/id-old",
 					"host": [
@@ -454,7 +479,7 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:3000",
+			"value": "https://app-4c20f9c0-4d1b-44ca-896f-6d3d4ec13a6a.cleverapps.io",
 			"type": "default"
 		}
 	]

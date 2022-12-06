@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import e from 'express';
 import { map, tap, lastValueFrom, reduce } from 'rxjs';
 import {
   ApiCrous,

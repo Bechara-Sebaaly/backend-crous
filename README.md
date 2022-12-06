@@ -1,6 +1,7 @@
 # ⚒️ CROUS BACKEND
 
 The following is a description of all the functionalities that are already coded and available in this API. Whenever a BASE_URL is used, it should be replaced by the http://hostingServerIP:portNumber. In case of local usage/testing, replace it with http://localhost:portNumber
+Currently the backend is running on https://app-4c20f9c0-4d1b-44ca-896f-6d3d4ec13a6a.cleverapps.io/crous
 
 To know more details about each request, please refer to the postman-collections folder where all the possible requests are available with all the data that should be sent with each request. For the Patch requests, you can ommit some attributes from the body, only change what's needed.
 Go to postman -> file -> import -> upload Files and choose the collection provided in this repos to add it to postman.
@@ -8,6 +9,7 @@ Go to postman -> file -> import -> upload Files and choose the collection provid
 ## 🗒️ NOTA BENE
 
 The data we are using is present here : https://data.opendatasoft.com/explore/dataset/fr_crous_restauration_france_entiere%40mesr/table/
+AXIOS library is used to send http request and read the data from the API at startup and each time findAll with refresh = 1 is called
 The crous API can do the sorting and pagination, but we didn't use it for that. We only used the opendatasoft API to get all the data during the backend startup (on Module initialisation).
 The code required for pagination and sorting of the data was created by us for this project.
 Also the original form of the available data is grouping the phone number, email and address in one field called "contact". During the initial reading of the data we seperated thos into three seperate fields: phone number, address and email.
@@ -112,7 +114,7 @@ this contains the reduced version of the crous data (certain attributs from the 
 | remove           | (DELETE) BASE_URL/crous/\*\*\*:id\*\*\* | deletes one crous (local)                                                                                                     |                no |
 | toggleFavorite   | (PUT) BASE_URL/crous/\*\*\*:id\*\*\*    | either adds or removes a crous restaurant from the favorites lists                                                            |                no |
 
-(1) page number (for pagination), number of rows (for pagination), offset (for pagination), sortBy (title,address or type), fav (0 or 1 to decide if API should return favorites or all) , geoloc (0 or 1 to either filter and send only location data or not) , refresh (0 or 1 to read data fron the API again )
+(1) page number (for pagination, indicates which page the user is requesting), number of rows (for pagination, indicates the number of rows in each page), offset (for pagination, indicates if there is an offset in the pagination, not used but it's good to have it for other applications), sortBy (indicates if the data is sorted by title,address or type), fav (0 or 1 to indicates if API should return the favorites only or all) , geoloc (0 or 1 to either filter and send only location data or not) , refresh (0 or 1 to read data fron the API again and refresh the backend local copy)
 
 #### 🔧 service
 

@@ -19,7 +19,7 @@ export class CrousController {
 
   @Post()
   create(@Body() createCrousDto: ExpandedCrousDto) {
-    // return this.crousService.create(createCrousDto);
+    return this.crousService.create(createCrousDto);
   }
 
   @Get()

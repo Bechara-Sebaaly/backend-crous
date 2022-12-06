@@ -122,11 +122,10 @@ export class CrousService {
     let index: number = this.crousFav.indexOf(id, 0);
     if (index === -1) {
       index = this.getIndexOf(id);
-      this.crousFav.push(this.crousList.restaurants[index].id);
+      this.crousFav.push(id);
       this.crousList.restaurants[index].favorite = true;
     } else {
-      console.log('removed');
-      console.log(this.crousFav.splice(index, 1));
+      index = this.getIndexOf(id);
       this.crousList.restaurants[index].favorite = false;
     }
 

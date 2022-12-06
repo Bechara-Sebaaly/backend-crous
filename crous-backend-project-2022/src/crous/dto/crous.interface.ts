@@ -12,4 +12,5 @@ export interface Crous {
   info: string;
   closing: number;
   photoURL: string;
+  favorite: boolean;
 }

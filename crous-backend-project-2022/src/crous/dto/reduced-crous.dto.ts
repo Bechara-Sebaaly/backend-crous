@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Crous } from './crous.interface';
 
 export class ReducedCrousDto {
@@ -24,19 +24,11 @@ export class ReducedCrousDto {
 
   @IsString()
   @IsNotEmpty()
-  phoneNumber: string;
-
-  @IsString()
-  @IsNotEmpty()
-  email: string;
+  photoURL: string;
 
   @IsNumber()
   @IsNotEmpty()
-  closing: number;
-
-  @IsString()
-  @IsNotEmpty()
-  photoURL: string;
+  favorite: boolean;
 
   constructor(crous?: Crous) {
     this.id = crous?.id;
@@ -44,9 +36,7 @@ export class ReducedCrousDto {
     this.title = crous?.title;
     this.shortDesc = crous?.shortDesc;
     this.address = crous?.address;
-    this.phoneNumber = crous?.phoneNumber;
-    this.email = crous?.email;
-    this.closing = crous?.closing;
     this.photoURL = crous?.photoURL;
+    this.favorite = crous?.favorite ?? false;
   }
 }

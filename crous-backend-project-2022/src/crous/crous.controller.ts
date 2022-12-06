@@ -19,7 +19,7 @@ export class CrousController {
 
   @Post()
   create(@Body() createCrousDto: ExpandedCrousDto) {
-    return this.crousService.create(createCrousDto);
+    // return this.crousService.create(createCrousDto);
   }
 
   @Get()
@@ -29,8 +29,19 @@ export class CrousController {
     @Query('offset', ParseIntPipe) offset: number,
     @Query('sortBy') sortBy: string,
     @Query('fav') favorites: number,
+    @Query('geoloc') geoloc: number,
+    @Query('refresh') refresh: number,
   ) {
-    return this.crousService.findAll(page, rows, offset, sortBy, +favorites);
+    console.log('test', page, geoloc);
+    return this.crousService.findAll(
+      page,
+      rows,
+      offset,
+      sortBy,
+      +favorites,
+      +geoloc,
+      +refresh,
+    );
   }
 
   @Get('/:id')
@@ -40,7 +51,6 @@ export class CrousController {
 
   @Post('/search/title')
   searchByTitle(@Body('title') title: string) {
-    console.log(title);
     return this.crousService.searchByName(title);
   }
 

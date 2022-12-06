@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Crous } from './crous.interface';
 
 export class ExpandedCrousDto {
@@ -52,6 +52,10 @@ export class ExpandedCrousDto {
   @IsNotEmpty()
   photoURL: string;
 
+  @IsNumber()
+  @IsNotEmpty()
+  favorite: boolean;
+
   constructor(crous?: Crous) {
     this.id = crous?.id ?? this.id;
     this.type = crous?.type ?? this.type;
@@ -66,5 +70,6 @@ export class ExpandedCrousDto {
     this.info = crous?.info ?? this.info;
     this.closing = crous?.closing ?? this.closing;
     this.photoURL = crous?.photoURL ?? this.photoURL;
+    this.favorite = crous?.favorite ?? false;
   }
 }

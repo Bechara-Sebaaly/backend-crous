@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import e from 'express';
-import { map, tap, lastValueFrom } from 'rxjs';
+import { map, tap, lastValueFrom, reduce } from 'rxjs';
 import {
   ApiCrous,
   Crous,
@@ -39,12 +39,14 @@ export class CrousService {
     return this.findOneById(crous.id);
   }
 
-  findAll(
+  async findAll(
     page: number,
     rows: number,
     offset: number,
     sortBy: string,
     favorites: number,
+    geoloc: number,
+    refresh: number,
   ) {
     let start: number,
       end: number,
@@ -54,12 +56,16 @@ export class CrousService {
       first: number;
 
     let list: CrousList = new CrousList();
-    list.restaurants = this.crousList.restaurants.slice();
+
+    if (refresh === 1) {
+      await this.getCrousData();
+    }
 
     if (favorites === 1)
       list.restaurants = this.crousList.restaurants.filter((element) =>
         this.crousFav.find((id) => id === element.id),
       );
+    else list.restaurants = this.crousList.restaurants.slice();
 
     [start, end, current, next, last, first, rows] =
       this.getPaginationArguments(page, rows, offset, list.restaurants.length);
@@ -73,7 +79,21 @@ export class CrousService {
     else if (sortBy === 'type')
       requestedData = this.sortCrousByType(requestedData);
 
+    if (geoloc === 1) {
+      let geoloc: { latitude: number; longitude: number; title: string }[] = [];
+      requestedData.slice().forEach((element) => {
+        let { latitude, longitude, title } = element;
+        geoloc.push({ latitude, longitude, title });
+      });
+      return geoloc;
+    }
+
     let returnData: ReducedCrousDto[] = this.reduceData(requestedData);
+
+    returnData.forEach((element) =>
+      element.favorite == true ? console.log(element.title) : 0,
+    );
+
     return { current, next, last, first, rows, returnData };
   }
 
@@ -88,26 +108,30 @@ export class CrousService {
 
   searchByName(
     title: string,
-  ): ExpandedCrousDto[] | ExpandedCrousDto | NotFoundException {
+  ): ReducedCrousDto[] | ExpandedCrousDto | NotFoundException {
     const crous = this.crousList.restaurants.filter((element) =>
-      element.title.includes(title),
+      element.title.toLowerCase().includes(title.toLowerCase()),
     );
 
+    console.log(title);
+
     if (!crous) throw new NotFoundException('CROUS NOT FOUND!');
-    if (crous.length === 1) return crous[0];
-    return crous;
+    return this.reduceData(crous);
   }
 
-  toggleFavorite(id: string): string {
+  toggleFavorite(id: string): { id: string } {
     let index: number = this.crousFav.indexOf(id, 0);
     if (index === -1) {
       index = this.getIndexOf(id);
       this.crousFav.push(this.crousList.restaurants[index].id);
+      this.crousList.restaurants[index].favorite = true;
     } else {
-      this.crousFav.splice(index, 1);
+      console.log('removed');
+      console.log(this.crousFav.splice(index, 1));
+      this.crousList.restaurants[index].favorite = false;
     }
 
-    return id;
+    return { id: id };
   }
 
   update(id: string, updatedCrous: Crous): Crous | BadRequestException {
@@ -202,10 +226,11 @@ export class CrousService {
                 phoneNumber: phoneNumber,
                 email: email,
                 latitude: element.fields.geolocalisation[0],
-                longitude: element.fields.geolocalisation[0],
+                longitude: element.fields.geolocalisation[1],
                 info: element.fields.infos,
                 closing: element.fields.closing,
                 photoURL: element.fields.photo,
+                favorite: false,
               });
             });
           }),
@@ -213,6 +238,10 @@ export class CrousService {
     );
 
     this.crousList.restaurants = this.sortCrousByTitle(apiData.restaurants);
+
+    this.crousFav.forEach((element) => {
+      this.crousList.restaurants[this.getIndexOf(element)].favorite = true;
+    });
     return this.crousList;
   }
 

@@ -16,7 +16,7 @@ Also the original form of the available data is grouping the phone number, email
 Also some entries have missing data, when the data is missing we replaced it with empty string ("")
 the index.ts file in the dto folder is only there to make exporting more clean (instead of exporting from multiple files we export every thing from one file)
 All adding and updating data operations are happening locally, so each time we reload the API, all the operations that you have done (adding/deleting) will be reverted.
-IF AN ITEM IS ADDED TO FAVORITES, EVEN AFTER REFRESH IT SHOUKD STAY IN FAVORITES (ALTOUGH SOMETIMES IT BUGS AND ITEMS DELETED OR ADDED TO FAVORITES CHANGES, WE COULDN'T FIND THE REASON AND IT OCCURE RARELY)
+
 
 ## 🧪 testing
 

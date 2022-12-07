@@ -32,7 +32,6 @@ export class CrousController {
     @Query('geoloc') geoloc: number,
     @Query('refresh') refresh: number,
   ) {
-    console.log('test', page, geoloc);
     return this.crousService.findAll(
       page,
       rows,

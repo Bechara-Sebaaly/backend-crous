@@ -60,23 +60,32 @@ export class CrousService {
       await this.getCrousData();
     }
 
-    if (favorites === 1)
+    if (favorites === 1) {
       list.restaurants = this.crousList.restaurants.filter((element) =>
-        this.crousFav.find((id) => id === element.id),
+        this.crousFav.includes(element.id),
       );
-    else list.restaurants = this.crousList.restaurants.slice();
+      if (list.restaurants.length == 0)
+        return {
+          current: 0,
+          next: 0,
+          last: 0,
+          first: 0,
+          rows: 0,
+          returnData: [],
+        };
+    } else list.restaurants = this.crousList.restaurants.slice();
+
+    if (sortBy === 'title')
+      list.restaurants = this.sortCrousByTitle(list.restaurants).slice();
+    else if (sortBy === 'address')
+      list.restaurants = this.sortCrousByAddress(list.restaurants).slice();
+    else if (sortBy === 'type')
+      list.restaurants = this.sortCrousByType(list.restaurants).slice();
 
     [start, end, current, next, last, first, rows] =
       this.getPaginationArguments(page, rows, offset, list.restaurants.length);
 
     let requestedData: ExpandedCrousDto[] = list.restaurants.slice(start, end);
-
-    if (sortBy === 'title')
-      requestedData = this.sortCrousByTitle(requestedData);
-    else if (sortBy === 'address')
-      requestedData = this.sortCrousByAddress(requestedData);
-    else if (sortBy === 'type')
-      requestedData = this.sortCrousByType(requestedData);
 
     if (geoloc === 1) {
       let geoloc: { latitude: number; longitude: number; title: string }[] = [];
@@ -88,10 +97,6 @@ export class CrousService {
     }
 
     let returnData: ReducedCrousDto[] = this.reduceData(requestedData);
-
-    returnData.forEach((element) =>
-      element.favorite == true ? console.log(element.title) : 0,
-    );
 
     return { current, next, last, first, rows, returnData };
   }
@@ -112,8 +117,6 @@ export class CrousService {
       element.title.toLowerCase().includes(title.toLowerCase()),
     );
 
-    console.log(title);
-
     if (!crous) throw new NotFoundException('CROUS NOT FOUND!');
     return this.reduceData(crous);
   }
@@ -125,7 +128,7 @@ export class CrousService {
       this.crousFav.push(id);
       this.crousList.restaurants[index].favorite = true;
     } else {
-      this.crousFav.slice(index, 1);
+      this.crousFav.splice(index, 1);
       index = this.getIndexOf(id);
       this.crousList.restaurants[index].favorite = false;
     }
